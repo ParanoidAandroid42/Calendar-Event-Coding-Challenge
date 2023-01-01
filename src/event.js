@@ -36,6 +36,7 @@ function calculateEventMatrix(events) {
         if (!isCollisionDetected) {
           eventMatrix.push(event);
           event.columnIndex = eventMatrixIndex;
+          event.rowIndex = event.columnIndex;
           isAdded = true;
         }
       });
@@ -89,14 +90,14 @@ function getEventInformation(sortedEvents) {
 
 function renderCalendarEvents(eventInformation) {
   let content = '';
-  eventInformation.map((event) => {
+  eventInformation.map((event, index) => {
     const scaledPos = getScaledPosition(event.start, event.end);
     const { startDate, endDate } = event;
 
     const width = Math.floor(CALENDAR_WIDTH / (event.rowIndex + 1));
     const left = event.columnIndex * width + CALENDAR_PADDING;
     const top = scaledPos.startPos;
-    const height = scaledPos.endPos - scaledPos.startPos;
+    const height = event.end - event.start;
 
     content += `
     <div class="event" style="top: ${top}px; left: ${left}px; width: ${width}px; height: ${height}px;">
