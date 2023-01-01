@@ -89,7 +89,7 @@ function getEventInformation(sortedEvents) {
 
 function renderCalendarEvents(eventInformation) {
   let content = '';
-  eventInformation.map((event, index) => {
+  eventInformation.map((event) => {
     const scaledPos = getScaledPosition(event.start, event.end);
     const { startDate, endDate } = event;
 

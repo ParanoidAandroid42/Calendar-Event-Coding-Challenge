@@ -3,6 +3,5 @@ export const state = {
   calendar: {
     $event_container: null,
     $element: null,
-    date: new Date(),
   }
 };
