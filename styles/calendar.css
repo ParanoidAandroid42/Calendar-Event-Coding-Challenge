@@ -1,0 +1,28 @@
+.calendar {
+  display: flex;
+  flex-direction: column;
+  margin: var(--calendar-margin);
+}
+
+.calendar .inner {
+  display: flex;
+}
+
+.date_container {
+  width: 75px;
+}
+
+.event_container {
+  position: relative;
+  background-color: var(--calendar-background-color);
+  padding: var(--calendar-padding);
+  width: var(--calendar-width);
+  height: var(--calendar-height);
+  float: left;
+}
+
+.date {
+  align-items: center;
+  justify-items: center;
+  display: flex;
+}

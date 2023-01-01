@@ -1,0 +1,24 @@
+.event {
+  position: absolute;
+  height: 100px;
+  background-color: var(--event-background-color);
+}
+
+.event .title {
+  padding-left: 15px;
+  padding-top: 5px;
+  color: var(--event-title-text-color);
+  font-weight: bold;
+}
+
+.event .content_text {
+  padding-left: 15px;
+}
+
+.event .border {
+  width: -webkit-fill-available;
+  border: 1px solid #cfcfcf;;
+  height: 100%;
+  position: absolute;
+  border-left: var(--event-border-left);
+}

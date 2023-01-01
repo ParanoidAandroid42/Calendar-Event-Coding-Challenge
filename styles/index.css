@@ -1,0 +1,16 @@
+@import "variables.css";
+@import "calendar.css";
+@import "event.css";
+
+body {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  height: 28px;
+  align-items: center;
+  border: 0;
+}
