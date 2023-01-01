@@ -17,8 +17,8 @@
 
 .event .border {
   width: -webkit-fill-available;
-  border: 1px solid #cfcfcf;;
-  height: 100%;
+  height: -webkit-fill-available;
+  border: 1px solid #cfcfcf;
   position: absolute;
   border-left: var(--event-border-left);
 }
