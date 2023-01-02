@@ -20,7 +20,6 @@ function calculateEventMatrix(events) {
     .filter((event) => event != events[0])
     .forEach((event) => {
       let isCollisionDetected = false;
-      let isCollisionChecked = false;
       let isAdded = false;
 
       eventMatrix.forEach((eventMatrix, eventMatrixIndex) => {
@@ -34,18 +33,16 @@ function calculateEventMatrix(events) {
           }
         });
 
-        if (!isCollisionDetected && !isCollisionChecked) {
+        if (!isCollisionDetected && !isAdded) {
           eventMatrix.push(event);
           event.columnIndex = eventMatrixIndex;
           isAdded = true;
-          isCollisionChecked = true;
         }
       });
 
-      if (!isAdded && !isCollisionChecked) {
+      if (!isAdded) {
         eventMatrix.push([event]);
         event.columnIndex = eventMatrix.length - 1;
-        isCollisionChecked = true;
       }  
       event.rowIndex = event.columnIndex; 
   });
