@@ -20,6 +20,7 @@ function calculateEventMatrix(events) {
     .filter((event) => event != events[0])
     .forEach((event) => {
       let isCollisionDetected = false;
+      let isCollisionChecked = false;
       let isAdded = false;
 
       eventMatrix.forEach((eventMatrix, eventMatrixIndex) => {
@@ -33,19 +34,20 @@ function calculateEventMatrix(events) {
           }
         });
 
-        if (!isCollisionDetected) {
+        if (!isCollisionDetected && !isCollisionChecked) {
           eventMatrix.push(event);
           event.columnIndex = eventMatrixIndex;
-          event.rowIndex = event.columnIndex;
           isAdded = true;
+          isCollisionChecked = true;
         }
       });
 
-      if (!isAdded) {
+      if (!isAdded && !isCollisionChecked) {
         eventMatrix.push([event]);
         event.columnIndex = eventMatrix.length - 1;
-        event.rowIndex = event.columnIndex;
-      }   
+        isCollisionChecked = true;
+      }  
+      event.rowIndex = event.columnIndex; 
   });
 
   // Check collision events for each events to find row index and start from first event 
@@ -79,7 +81,6 @@ function getEventInformation(sortedEvents) {
       end: event.end,
       startDate: format12HourClock(addMinutesToCalendarStartTime(event.start)),
       endDate: format12HourClock(addMinutesToCalendarStartTime(event.end)),
-      isCollisionChecked: false,
       collisionEvents: [],
       rowIndex: 0,
       columnIndex: 0,
