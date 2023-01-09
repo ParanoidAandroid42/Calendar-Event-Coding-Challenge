@@ -15,7 +15,6 @@ export const DATE_PROPERTIES = {
  * @returns {String}
  */
 export function format12HourClock(date) {
-  console.log( 'assss', date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }))
   return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
