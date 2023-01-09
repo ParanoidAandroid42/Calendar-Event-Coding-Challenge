@@ -1,6 +1,6 @@
-import { state } from 'src/state';
+import { state } from 'src/app';
 import { format12HourClock, addMinutesToCalendarStartTime, getCalendarTotalMinutes } from 'src/dates';
-import { CALENDAR_TOTAL_HEIGHT, CALENDAR_WIDTH, CALENDAR_PADDING } from 'src/calendar';
+import { CALENDAR_PROPERTIES } from 'src/calendar';
 
 export function initEvent(events) {
   // sort all events to set column/row indexes properly
@@ -15,49 +15,52 @@ function calculateEventMatrix(events) {
   // for the first event, no need to check collision status
   const eventMatrix = [[events[0]]];
 
-   // Check each column events until find available(no collision) column and start from first event
+  // Check each column until find available(no collision) place to add the event
   events
     .filter((event) => event != events[0])
     .forEach((event) => {
-      let isCollisionDetected = false;
-      let isAdded = false;
-
+      let availablePlaceIndex = 0;
+      let foundAvailablePlaceAlready = false;
       eventMatrix.forEach((eventMatrix, eventMatrixIndex) => {
+        let isCollisionDetected = false;
         eventMatrix.forEach((eventMatrix) => {
           const compareEvent = eventMatrix;
           console.log(event.startDate, event.endDate, 'compared with:', compareEvent.startDate, compareEvent.endDate);
+          // check collision
           if (compareEvent.start < event.end && compareEvent.end > event.start) {
             console.log('collision detected');
-            isCollisionDetected = true;
             event.collisionEvents.push(compareEvent);
+            isCollisionDetected = true;
           }
         });
 
-        if (!isCollisionDetected && !isAdded) {
-          eventMatrix.push(event);
-          event.columnIndex = eventMatrixIndex;
-          isAdded = true;
+        if (!foundAvailablePlaceAlready) {
+          // if collision detected , check the next column
+          if (isCollisionDetected) {
+            availablePlaceIndex++;
+          }
+          // if collision not detected , place the event current column
+          else {
+            availablePlaceIndex = eventMatrixIndex;
+            foundAvailablePlaceAlready = true;
+          }
         }
       });
 
-      if (!isAdded) {
-        eventMatrix.push([event]);
-        event.columnIndex = eventMatrix.length - 1;
-      }  
-      event.rowIndex = event.columnIndex; 
+      eventMatrix[availablePlaceIndex] ? eventMatrix[availablePlaceIndex].push(event) : eventMatrix.push([event]);
+      event.columnIndex = availablePlaceIndex;
+      event.shiftLeft = availablePlaceIndex;
+
+      setMaxShiftLeft(event);
   });
 
-  // Check collision events for each events to find row index and start from first event 
-  for (let i = events.length - 1; i >= 0; i--) {
-    events[i].collisionEvents.forEach((collisionEvent) => {
-      if (collisionEvent.columnIndex > events[i].columnIndex) {
-        events[i].rowIndex = collisionEvent.rowIndex;
-      }
-      if (collisionEvent.columnIndex < events[i].columnIndex) {
-        collisionEvent.rowIndex = events[i].rowIndex;
-      }
+  eventMatrix.forEach((eventMatrix) => {
+    eventMatrix.forEach((eventMatrix) => {
+      setMaxShiftLeft(eventMatrix);
     });
-  }
+  });
+
+  return eventMatrix;
 }
 
 function getSortedEventsByStartTime(events) {
@@ -71,6 +74,18 @@ function getSortedEventsByStartTime(events) {
   return events;
 }
 
+function setMaxShiftLeft(event) {
+  event.collisionEvents.forEach((collisionEvent) => {
+    if (collisionEvent.shiftLeft > event.shiftLeft) {
+      event.shiftLeft = collisionEvent.shiftLeft;
+    }
+    if (collisionEvent.shiftLeft < event.shiftLeft) {
+      collisionEvent.shiftLeft = event.shiftLeft;
+    }
+  });
+  return event;
+}
+
 function getEventInformation(sortedEvents) {
   return sortedEvents.reduce((acc, event) => {
     acc.push({
@@ -79,8 +94,8 @@ function getEventInformation(sortedEvents) {
       startDate: format12HourClock(addMinutesToCalendarStartTime(event.start)),
       endDate: format12HourClock(addMinutesToCalendarStartTime(event.end)),
       collisionEvents: [],
-      rowIndex: 0,
       columnIndex: 0,
+      shiftLeft: 0,
     });
     return acc;
   }, []);
@@ -88,17 +103,16 @@ function getEventInformation(sortedEvents) {
 
 function renderCalendarEvents(eventInformation) {
   let content = '';
-  eventInformation.map((event, index) => {
+  eventInformation.map((event) => {
     const scaledPos = getScaledPosition(event.start, event.end);
     const { startDate, endDate } = event;
-
-    const width = Math.floor(CALENDAR_WIDTH / (event.rowIndex + 1));
-    const left = event.columnIndex * width + CALENDAR_PADDING;
+    const leftColumnWidth = Math.floor(CALENDAR_PROPERTIES.width / (event.shiftLeft + 1));
+    const left = event.columnIndex * leftColumnWidth + CALENDAR_PROPERTIES.padding;
     const top = scaledPos.startPos;
     const height = event.end - event.start;
 
     content += `
-    <div class="event" style="top: ${top}px; left: ${left}px; width: ${width}px; height: ${height}px;">
+    <div class="event" style="top: ${top}px; left: ${left}px; width: ${leftColumnWidth}px; height: ${height}px;">
        <div class="border"></div>
        <div class="title">Sample Event</div>
        <div class="content_text">Event time: ${startDate}-${endDate}</div>
@@ -117,7 +131,7 @@ function getScaledPosition(startTime, endTime) {
   const totalMinutes = getCalendarTotalMinutes();
 
   return {
-    startPos: Math.floor((CALENDAR_TOTAL_HEIGHT * startTime) / totalMinutes),
-    endPos: Math.floor((CALENDAR_TOTAL_HEIGHT * endTime) / totalMinutes),
+    startPos: Math.floor((CALENDAR_PROPERTIES.totalHeight * startTime) / totalMinutes),
+    endPos: Math.floor((CALENDAR_PROPERTIES.totalHeight * endTime) / totalMinutes),
   };
 }

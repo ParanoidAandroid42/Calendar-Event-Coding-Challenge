@@ -6,13 +6,15 @@
 
 .event .title {
   padding-left: 15px;
-  padding-top: 5px;
+  padding-top: 1px;
   color: var(--event-title-text-color);
   font-weight: bold;
+  font-size: 12px;
 }
 
 .event .content_text {
   padding-left: 15px;
+  font-size: 10px;
 }
 
 .event .border {
