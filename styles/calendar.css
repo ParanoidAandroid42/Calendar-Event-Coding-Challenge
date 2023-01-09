@@ -10,6 +10,11 @@
 
 .date_container {
   width: 75px;
+  text-align: right;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 7px;
 }
 
 .event_container {
@@ -22,7 +27,13 @@
 }
 
 .date {
-  align-items: center;
-  justify-items: center;
-  display: flex;
+  font-weight: bold;
+  color: #686868;
+
+}
+
+.offset {
+  font-size: 12px;
+  font-weight: normal;
+  color: #A7A7A7;
 }

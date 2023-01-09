@@ -32,7 +32,11 @@ function updateView() {
 
   for (let i = 0; i <= offsetTimeCount; i++) {
     const date = addMinutesToCalendarStartTime(DATE_PROPERTIES.offsetMinuteToAdd * i);
-    content += `<label class="date" style="height: ${cellHeight}px; ">${format12HourClock(date)}</label>`;
+    if (i%2) {
+      content += `<label class="date offset" style="height: ${cellHeight}px; ">${format12HourClock(date).replace('PM', '').replace('AM', '')}</label>`;
+    } else {
+      content += `<label class="date" style="height: ${cellHeight}px; ">${format12HourClock(date)}</label>`;
+    }
   }
 
   dateContainer.style = `margin-top: -${cellHeight / 2}px`;
