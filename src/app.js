@@ -111,5 +111,5 @@ export function initApp(selector) {
     initEvent(calendarEvents);
   };
 
-  initEvent(testEventData4);
+  initEvent(defaultEventData);
 }
