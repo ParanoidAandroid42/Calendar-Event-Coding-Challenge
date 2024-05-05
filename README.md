@@ -18,3 +18,5 @@ Use 'layOutDay(calendarEvents: [])' function to test. As calendarEvents paramete
                   { start: 560, end: 620 },
                   { start: 610, end: 670 }])
     </pre>
+
+## Preview

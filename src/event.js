@@ -22,28 +22,19 @@ function calculateEventMatrix(events) {
       let availablePlaceIndex = 0;
       let foundAvailablePlaceAlready = false;
       eventMatrix.forEach((eventMatrix, eventMatrixIndex) => {
-        let isCollisionDetected = false;
-        eventMatrix.forEach((eventMatrix) => {
-          const compareEvent = eventMatrix;
+        const isCollisionDetected = eventMatrix.some(compareEvent => {
           console.log(event.startDate, event.endDate, 'compared with:', compareEvent.startDate, compareEvent.endDate);
-          // check collision
           if (compareEvent.start < event.end && compareEvent.end > event.start) {
             console.log('collision detected');
             event.collisionEvents.push(compareEvent);
-            isCollisionDetected = true;
+            return true;
           }
+          return false;
         });
-
+        
         if (!foundAvailablePlaceAlready) {
-          // if collision detected , check the next column
-          if (isCollisionDetected) {
-            availablePlaceIndex++;
-          }
-          // if collision not detected , place the event current column
-          else {
-            availablePlaceIndex = eventMatrixIndex;
-            foundAvailablePlaceAlready = true;
-          }
+          availablePlaceIndex = isCollisionDetected ? availablePlaceIndex + 1 : eventMatrixIndex;
+          foundAvailablePlaceAlready = !isCollisionDetected;
         }
       });
 
@@ -76,12 +67,8 @@ function getSortedEventsByStartTime(events) {
 
 function setMaxShiftLeft(event) {
   event.collisionEvents.forEach((collisionEvent) => {
-    if (collisionEvent.shiftLeft > event.shiftLeft) {
-      event.shiftLeft = collisionEvent.shiftLeft;
-    }
-    if (collisionEvent.shiftLeft < event.shiftLeft) {
-      collisionEvent.shiftLeft = event.shiftLeft;
-    }
+    const maxShift = Math.max(event.shiftLeft, collisionEvent.shiftLeft);
+    event.shiftLeft = collisionEvent.shiftLeft = maxShift;
   });
   return event;
 }
