@@ -16,4 +16,4 @@ bundles/
 
 *.log
 pnpm-lock.yaml
-eslintrc.js
+.eslintrc.js
