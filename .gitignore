@@ -1,18 +1,18 @@
-node_modules
+# IntelliJ Paths
+.idea/*
+!.idea/runConfigurations
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+# VSCode Path
+.vscode/**/*
+!.vscode/settings.json
 
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.env
-.npmrc
+# Node Modules
+node_modules/
+
+# tokens
+tokens/
+styles/
+bundles/
+
+*.log
+pnpm-lock.yaml
