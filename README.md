@@ -7,7 +7,8 @@
 `npm run dev`
 
 ## Test
-Use 'layOutDay(calendarEvents: [])' function to test. As calendarEvents parameter give which event inputs you want as array. Event type: {start: number, end: number }
+* Use 'layOutDay(calendarEvents: [])' function to test. As calendarEvents parameter give which event inputs you want as array. 
+* Event type: {start: number, end: number }
 
 ## Example data to test
    <pre>
@@ -42,3 +43,5 @@ Use 'layOutDay(calendarEvents: [])' function to test. As calendarEvents paramete
 
 ## Preview
 <img width="536" alt="image" src="https://github.com/ParanoidAandroid42/Calendar-Event-Coding-Challenge/assets/13114945/8debf4c8-b4d8-44c4-9ee7-f6d3b015e7af">
+
+Note: This project was intentionally written in the JavaScript language, as it is a requirement of the challenge itself.
