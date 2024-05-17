@@ -1,18 +1,26 @@
+# Daily Calendar Code Challenge 
 
-## Project setup
+This project implements a function to render events on a single day calendar, similar to popular calendar applications like Outlook, Calendar.app, and Google Calendar. The function ensures no events overlap visually and calculates the maximum possible width for colliding events without breaking layout invariants.
 
-`npm i`
+## Features
 
-## Project run
-`npm run dev`
+- Renders events in a single day calendar view.
+- Ensures no events visually overlap.
+- Colliding events have the same maximum possible width.
+- Events are represented by JavaScript objects with `start` and `end` attributes (minutes since 9am).
+- The container is 620px wide and 720px long (9am to 9pm).
+- Language must be javascript
 
-## Test
-* Use 'layOutDay(calendarEvents: [])' function to test. As calendarEvents parameter give which event inputs you want as array. 
-* Event type: {start: number, end: number }
+## Function
 
-## Example data to test
+The main function provided by this project is `layOutDay(events)`.
+
+### Usage
+
+The `layOutDay` function takes an array of events and lays them out according to the described rules. Here is an example input:
+
    <pre>
-      [
+     layOutDay([
         { id: 1, start: 0, end: 30 },
         { id: 2, start: 30, end: 100 },
         { id: 3, start: 80, end: 160 },
@@ -38,10 +46,16 @@
         { id: 23, start: 690, end: 720 },
         { id: 24, start: 650, end: 680 },
         { id: 25, start: 650, end: 690 },
-      ];
+      ];);
     </pre>
 
 ## Preview
 <img width="536" alt="image" src="https://github.com/ParanoidAandroid42/Calendar-Event-Coding-Challenge/assets/13114945/8debf4c8-b4d8-44c4-9ee7-f6d3b015e7af">
 
-Note: This project was intentionally written in the JavaScript language, as it is a requirement of the challenge itself.
+
+## Project setup
+
+`npm i`
+
+## Project run
+`npm run dev`
