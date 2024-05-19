@@ -2,7 +2,7 @@
 
 This project implements a function to render events on a single day calendar, similar to popular calendar applications like Outlook, Calendar.app, and Google Calendar. The function ensures no events overlap visually and calculates the maximum possible width for colliding events without breaking layout invariants.
 
-## Features
+## Requirements
 
 - Renders events in a single day calendar view.
 - Ensures no events visually overlap.
